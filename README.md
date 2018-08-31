@@ -9,11 +9,11 @@ For the dns queries over TLS to the required endpoint (in this case, the cloudfl
 
 The `dns-proxy.py` is the script which implements both the DNSServer and the TLS transport portion to talk to Cloudflare DNS Server `1.1.1.1` on port 853.
 
-For process control, this application is run under `supervisor` inside the docker container.#address=
+For process control, this application is run under `supervisor` inside the docker container.
 
-For easiness in setup (not having to depend on iptable rules for bridged mode networking), the container is made to work with host mode networking. This also gives performance advantage as it is directly using the host machine's networking interface bypassing the virtual interfaces that come into picture when using the bridge mode networking.
+For easiness in setup (not having to depend on iptable rules for bridged mode networking), the container is made to work with host mode networking. This also gives performance advantage as it is directly using the host machine's networking interface bypassing the virtual interfaces that come into picture when using the bridge mode networking. I think this would be a fair assumption as clients usually query on UDP 53 and fallback to TCP in case of truncated replies.
 
-In Microservices architecture, since different applications doesn't need separate DNS resolvers, this can be deployed as a standalone container to serve all the DNS needs of all the containers. Multiple instances can be made available for redundancy and therefore high availability. On a further large scale, excellent DNS aware load balancers like https://dnsdist.org/ can be used for load balancing, high availability and increased performance by detecting the best performing backends.
+In Microservices architecture, since different applications doesn't need separate DNS resolvers, this can be deployed as a standalone container to serve all the DNS needs of all the containers in the cluster. Multiple instances can be made available for redundancy and therefore high availability. On a further large scale, excellent DNS aware load balancers like https://dnsdist.org/ can be used for load balancing, high availability and increased performance by detecting the best performing backends.
 
 
 ## Query Flow Diagram
